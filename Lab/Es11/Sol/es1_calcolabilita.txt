@@ -1,0 +1,38 @@
+ESERCIZIO 1
+
+Si consideri il seguente linguaggio:
+L = { w_<x,y> | x e y sono tali che L(M_x) e L(M_y) hanno una stringa in comune }
+dove M_x e M_y sono la x-esima e la y-esima macchina di Turing. 
+Dire se L è ricorsivo, ricorsivamente enumerabile, o nemmeno ricorsivamente enumerabile. 
+Giustificare la risposta.
+
+---------------
+**L e' ricorsivamente enumerabile**
+
+Considero TM NON-DET M con multipli nastri che opera come segue 
+(inizialmente l'input "w" si trova sul primo nastro):
+1) decodifico l'input calcolando, su due nastri dedicati, x e y tali che w=w_<x,y>  
+2) decodifico x -> M_x ed y -> M_y
+3) creo non-deterministicamente una stringa qualsiasi w' in un nastro non ancora usato
+4) copio w' in modo da averla in due nastri 
+5) uso i due nastri per simulare in parallelo M_x con input w' ed M_y con input w'
+   (come per le costruzioni di chiusura rispetto a unione e intersezione)
+6) se entrambe le simulazioni hanno raggiunto l'accettazione allora accetto
+
+**L non e' ricorsivo**
+
+Mi chiedo se ci sia un linguaggio che so non essere ricorsivo che si riduce a questo
+(cioè ipotizzando per assurdo che ci sia un algoritmo per questo allora otterrei un algoritmo
+anche per il linguaggio noto)
+
+Considero il linguaggio della UTM L_u
+L_u= {w_<x,z> | w_z appartiene a L(M_x)} 
+
+La riduzione da L_u ad L è la seguente.
+Per stabilire se w_<x,z> sta in L_u pongo:
+y=indice di una qualsiasi TM tale che L(M_y)={w_z}
+e poi uso un ipotetico algoritmo per L che mi consente di stabilire 
+se L(M_x) e L(M_y)={w_z} hanno una stringa in comune, cioè se w_z \in L(M_x)
+
+Quindi ipotizzando di avere un algoritmo per L avrei un algoritmo per L_u: assurdo!
+

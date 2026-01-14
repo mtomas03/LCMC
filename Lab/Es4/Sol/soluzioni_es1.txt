@@ -1,0 +1,21 @@
+1. Definire un automa a pila (PDA) che riconosca (per stato finale) i seguenti linguaggi sull'alfabeto {0,1}:
+a- linguaggio delle stringhe 0^n 1^n (mostrare che "0011" è riconosciuta dal PDA)
+
+(q0,0011,Z) |- (q0,011,0Z) |- (q0,11,00Z) |- (q1,1,0Z) |- (q1,\epsilon,Z) |-
+(q2,\epsilon,Z)
+
+b- linguaggio delle stringhe in cui il numero di 0 e' uguale al numero di 1
+
+SI 
+
+\epsilon
+01
+00111100
+1110100100
+
+NO
+
+110
+
+c- linguaggio delle stringhe in cui il numero di 0 e' maggiore o uguale del numero di 1
+

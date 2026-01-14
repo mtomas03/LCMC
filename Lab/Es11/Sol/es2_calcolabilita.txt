@@ -1,0 +1,48 @@
+ESERCIZIO 2
+
+Si consideri il seguente linguaggio:
+L = { w_<x,y> | x e y sono tali che L(M_x) e L(M_y) NON hanno stringhe in comune }
+dove M_x e M_y sono la x-esima e la y-esima macchina di Turing. 
+Dire se L è ricorsivo, ricorsivamente enumerabile, o nemmeno ricorsivamente enumerabile. 
+Giustificare la risposta.
+
+--------------
+Osservazione preliminare:
+
+L non è Ricorsivo poichè abbiamo già dimostrato (esercizio precedente) 
+che il complementare di L non è Ricorsivo 
+(per assurdo se L fosse ricorsivo allora, siccome i ricorsivi sono chiusi rispetto alla 
+complementazione, dovrebbe esserlo anche il suo complementare).
+
+---
+
+**L non e' Ricorsivamente Enumerabile**
+
+Il complementare di L è il linguaggio dell'esercizio precedente che abbiamo già dimostrato essere Ricorsivamente Enumerabile.
+
+Quindi:
+1) il complementare di L è RE 
+2) L non è ricorsivo
+allora, per il teorema di Post, possiamo concludere che L non è RE 
+(per assurdo se L fosse RE allora, siccome il suo complementare è RE, L dovrebbe essere ricorsivo).
+
+**L non e' Ricorsivamente Enumerabile** (ALTERNATIVA: DIMOSTRAZIONE DIRETTA)
+
+Mi chiedo se ci sia un linguaggio che so essere non ricorsivmente 
+enumerabile che si riduce a L: cioè ipotizzando per assurdo che ci sia 
+una procedura (TM) che riconosce L allora otterrei una procedura (TM) 
+che riconosce il linguaggio noto.
+
+In questo caso basta considerare L_d
+L_d= {w_x | w_x non appartiene a L(M_x)}
+
+La riduzione da L_d ad L è la seguente.
+Per stabilire se w_x sta in L_d pongo:
+y=indice di una qualsiasi TM tale che L(M_y)={w_x}
+e poi uso una ipotetica procedura (TM) per L che termina accettando 
+qualora L(M_x) e L(M_y)={w_x} non hanno stringhe in comune 
+(altrimenti la procedura può non terminare o bloccarsi), cioè 
+quando w_x non appartiene a L(M_x)
+
+Quindi ipotizzando di avere una procedura (TM) che riconosce L avrei una procedura (TM) che riconosce L_d: assurdo!
+

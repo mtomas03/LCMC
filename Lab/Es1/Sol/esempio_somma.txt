@@ -1,0 +1,80 @@
+a  0 1 1      a_2 a_1 a_0
+b  0 1 0      b_2 b_1 b_0
+   -----      -----------
+c  1 0 1      c_2 c_1 c_0
+
+a+b=c
+
+-------------------
+
+101 110 001
+
+__________________________________
+
+Questo esercizio è proprio il classico “controllo di somma bit-a-bit con il riporto” e la soluzione è costruire un automa deterministico che memoriza solo quello che serve tra una tripletta e la successiva: il riporto (carry) e — mentre si leggono i tre bit aᵢ, bᵢ, cᵢ — l’informazione necessaria per confrontare cᵢ con la somma (aᵢ + bᵢ + carry_in) mod 2. Spiego la costruzione e faccio una simulazione sull’esempio che hai dato.
+
+Idea centrale
+leggiamo la stringa in gruppi di tre simboli (a₀ b₀ c₀ a₁ b₁ c₁ …). per ogni gruppo i passi sono: leggere aᵢ, leggere bᵢ, quindi leggere cᵢ e verificare che cᵢ sia il bit di somma corretto. dopo aver letto bᵢ possiamo già calcolare quale deve essere cᵢ (cioè (aᵢ + bᵢ + carry_in) mod 2) e il carry_out = floor((aᵢ + bᵢ + carry_in)/2). quindi lo stato dell’automa deve ricordare: in quale posizione del triplettino siamo (attesa a, attesa b, attesa c), il carry_in corrente e — quando siamo nella posizione “attesa b” — il valore di aᵢ letto (oppure, equivalente, dopo b il valore atteso di c e il carry_out). se la verifica su cᵢ fallisce andiamo in uno stato di rifiuto.
+
+In pratica si possono usare questi tipi di stati (nomi semplificati):
+A0 stato “attendo aᵢ” con carry_in = 0 (questo è anche lo stato iniziale e l’unico stato di accettazione);
+A1 stato “attendo aᵢ” con carry_in = 1;
+B_{a,c} stati “ho letto aᵢ = a, carry_in = c e ora attendo bᵢ” (ci sono quattro possibili combinazioni: a∈{0,1}, c∈{0,1});
+C_{exp,co} stati “ho letto aᵢ e bᵢ, il bit atteso per cᵢ vale exp e il carry_out vale co; ora attendo cᵢ” (di nuovo quattro combinazioni exp∈{0,1}, co∈{0,1});
+D stato di rifiuto permanente (se una verifica fallisce o se la lunghezza non è multipla di 3).
+
+Transizioni (descrizione sintetica)
+dallo stato A_c leggendo un bit a (=0 o 1) si va in B_{a,c}.
+da B_{a,c} leggendo b si calcolano exp = (a + b + c) mod 2 e co = ⌊(a + b + c)/2⌋ e si passa in C_{exp,co}.
+da C_{exp,co} leggendo c se c = exp si passa nello stato A_{co} (cioè si inizia il prossimo triplettino con carry_in = co); se c ≠ exp si va nello stato D.
+da D ogni lettura resta in D.
+l’automa accetta se e solo se la lettura finisce nello stato A0 (cioè la lunghezza della stringa è multipla di 3 e il carry finale è 0). se la stringa termina in A1 oppure in B_* o C_* (cioè interrotta a metà triplettino) si rifiuta.
+
+Numero di stati
+con questa costruzione abbiamo: 2 stati A, 4 stati B, 4 stati C e 1 stato di rifiuto, per un totale di 11 stati. questo è esattamente lo schema minimo ragionevole perché bisogna ricordare le 2 possibili carry e i bit intermedi.
+
+Esempio concreto (il tuo: a = 101, b = 110, c = 001)
+prima convertiamo in ordine LSB→MSB i tripletti: a₀ b₀ c₀ a₁ b₁ c₁ a₂ b₂ c₂. con a=1 0 1, b=1 1 0, c=0 0 1 otteniamo la sequenza: 1 0 1   0 1 0   1 1 0 (senza spazi: 101010110). simuliamo velocemente:
+
+partenza in A0 (carry_in = 0).
+leggo 1 (a₀ = 1) → passo in B_{1,0}.
+leggo 0 (b₀ = 0) → calcolo exp = (1+0+0) mod 2 = 1, co = 0 → passo in C_{1,0}.
+leggo 1 (c₀ = 1) → c coincide con exp, quindi passo in A0 (carry_out = 0). primo triplettino OK.
+
+leggo 0 (a₁ = 0) → B_{0,0}.
+leggo 1 (b₁ = 1) → exp = (0+1+0) mod 2 = 1, co = 0 → C_{1,0}.
+leggo 0 (c₁ = 0) → qui c ≠ exp (0 ≠ 1) → transizione nello stato D (rifiuto).
+Questo mostra che, con i triplettini così disposti, la seconda colonna non soddisfa la somma: infatti confrontando le somme bit-per-bit (con riporto) questo esempio in effetti dà rifiuto. (Se invece l’esempio fosse quello in cui a+b=c, il cammino arriverebbe in A0 al termine e verrebbe accettato.)
+
+Nota sul criterio di accettazione
+occorre essere rigorosi: l’automa deve accettare solo se la stringa ha lunghezza multipla di 3 e il carry finale è 0. se invece si vuole permettere che a+b generi un ulteriore bit di overflow (cioè se si considerasse che c può avere una cifra in più) allora la condizione di accettazione cambierebbe, ma nel testo hai specificato che a, b, c hanno stessa lunghezza quindi si richiede carry finale 0.
+
+# Tabella di transizione completa
+
+Stato iniziale: **A0**. Stato di accettazione: **A0** (la stringa deve finire in A0: lunghezza multipla di 3 e carry finale 0). Stato di rifiuto permanente: **D**.
+
+Nomi degli stati usati:
+A_c = attendo aᵢ con carry_in = c (c ∈ {0,1})
+B_{a,c} = ho letto aᵢ = a e carry_in = c, ora attendo bᵢ (a,c ∈ {0,1})
+C_{exp,co} = ho letto aᵢ e bᵢ; il bit atteso per cᵢ è exp e il carry_out è co, ora attendo cᵢ (exp,co ∈ {0,1})
+D = stato di rifiuto permanente
+
+Tabella (colonne: simbolo letto):
+
+| Stato   | leggendo 0 → | leggendo 1 → |
+| ------- | ------------ | ------------ |
+| **A0**  | B00          | B10          |
+| **A1**  | B01          | B11          |
+| **B00** | C00          | C10          |
+| **B10** | C10          | C01          |
+| **B01** | C10          | C01          |
+| **B11** | C01          | C11          |
+| **C00** | A0           | D            |
+| **C10** | D            | A0           |
+| **C01** | A1           | D            |
+| **C11** | D            | A1           |
+| **D**   | D            | D            |
+
+Spiegazione rapida di come leggere la tabella: partendo in **A0** (carry_in 0), leggendo il bit aᵢ si passa nello stato B corrispondente (memorizzando aᵢ e il carry). in B si legge bᵢ e si calcolano exp = (aᵢ + bᵢ + carry_in) mod 2 e co = ⌊(aᵢ + bᵢ + carry_in)/2⌋; si passa nello stato C_{exp,co}. in C si legge cᵢ: se il bit letto coincide con exp si continua in A_{co} (carry per il prossimo triplettino), altrimenti si va in D e rimane in D per sempre.
+
+

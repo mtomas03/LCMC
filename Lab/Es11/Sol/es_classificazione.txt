@@ -1,0 +1,25 @@
+Si consideri il linguaggio delle stringhe a^n b^n c^n. Classificare il linguaggio dicendo se è un linguaggio regolare, libero, ricorsivo, ricorsivamente enumerabile, o nemmeno ricorsivamente enumerabile. Giustificare la risposta.
+
+E' RICORSIVO
+
+Considero la seguente TM deterministica multinastro che termina sempre:
+
+1) suppongo input w nel primo nastro
+2) considero eventuali a all'inizio della stringa w e le copio su un secondo nastro
+3) proseguo considerando eventuali b nella stringa w (se incontro delle a fallisco) e le copio su un terzo nastro
+4) proseguo considerando eventuali c nella stringa w (se incontro delle a o delle b fallisco) e le copio su un quarto nastro
+5) controllo che le stringhe sul secondo e terzo nastro abbiano lunghezza uguale, altrimenti fallisco
+6) controllo che le stringhe sul terzo e quarto nastro abbiano lunghezza uguale, altrimenti fallisco
+7) accetto
+
+NON E' LIBERO
+
+Utilizzo pumping lemma dei linguaggi liberi
+
+Suppogo per assurdo che sia libero. Data n costante del pumping lemma scelgo z=a^nb^n^c^n
+e considero una qualsiasi scomposizione z=uvwxy tale che |vwx|<=n e |vx|>0
+
+vwx sarà immerso in al più due dei tre gruppi e non coivolgerà il terzo. 
+Se prendo k=0 e quindi la stringa uwy (taglio via la v e la x), in essa il simbolo
+del guppo non coinvolto occorrerà n volte mentre, siccome |vx|>0, uno degli altri
+due simboli occorre un numero di volte <n. Quindi uwy non appartiene a L (assurdo)

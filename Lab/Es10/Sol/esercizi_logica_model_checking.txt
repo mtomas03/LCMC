@@ -1,0 +1,89 @@
+LOGICA PROPOSIZIONI
+
+Per ognuna delle seguenti formule dire se è, o meno, logicamente equivalente a 
+(-p \/ -q) => r.
+Osservo preliminarmente che è equivalente a:
+(regola "=>"    f => g equivalente -f \/ g)
+-(-p \/ -q) \/ r
+equivalente a
+(regola De Morgan -(f \/ g) equivalente -f /\ -g )
+(p /\ q) \/ r
+
+Giustificare la risposta: in caso negativo mostrare un modello che le distingua 
+(cioè tale che una sia vera e l'altra sia falsa).
+q \/ (p \/ r) 
+equiv. (assoc. e comm.) a: (p \/ q) \/ r 
+NO: basta prendere p=T,q=F,r=F
+
+(q \/ r) /\ (p \/ r)
+(regola distribuitiva (f /\ g) \/ h equiv a: (f \/ h) /\ (g \/ h) )
+SI: equiv per distributività \/
+
+(p \/ r) /\ q
+equiv a:
+(regola distribuitiva (f \/ g) /\ h equiv a: (f /\ h) \/ (g /\ h) )
+(p /\ q) \/ (r /\ q)
+NO: distributività /\ e basta prendere r=T, q=F
+
+-r => (p /\ q)
+equiv a: (regola =>)
+r \/ (p /\ q)
+SI: per regola della =>
+
+Per ognuna delle seguenti formule dire se è, o meno, valida (una tautologia).
+Giustificare la risposta: in caso negativo mostrare un modello che la renda falsa.
+(p => q) \/ -q 
+SI: è soddisfatta sia da tutti i modelli in cui q è vero sia da tutti i modelli in cui q è falso
+
+(p => q) \/ -p 
+NO: basta prendere p=T e q=F
+
+LOGICA PREDICATI
+
+Si consideri la seguente formula su P = {greater/2}, F={}, C={}
+\forall x \exists y greater(x,y) 
+
+Per ognuna dei seguenti modelli M dire se soddisfa, o meno, tale formula.
+- Il modello M che ha come universo di valori A = {a,b,c} e che considera
+il predicato "greater" essere T per le coppie (x,y) appartenenti a 
+{(a,b),(a,c),(b,c)}
+NO: per esempio basta prendere x=c
+
+- Il modello M che ha come universo di valori A = {a,b,c} e che considera
+il predicato "greater" essere T per le coppie (x,y) appartenenti a 
+{(a,b),(b,a),(c,a)}
+SI: per ogni elemento di A esiste una coppia che ha quell'elemento a sinistra
+
+- Il modello M che ha come universo di valori A l'insieme dei numeri naturali e che considera il predicato "greater" essere T per le coppie (x,y) tali che y > x
+SI: per ogni naturale n esiste sempre un naturale m tale che m>n
+
+- Il modello M che ha come universo di valori A l'insieme dei numeri interi negativi e che considera il predicato "greater" essere T per le coppie (x,y) tali che y > x
+NO: il numero -1 non ha interi negativi più grandi di lui
+
+AUTOMI (LTS)
+
+Considerare l'automa contenuto nel file "esempio.adr".
+Per ognuna delle suguenti proprietà dire se la proprietà è soddisfatta o no. 
+Giustificare la risposta. In particolare in caso di risposta negativa indicare 
+una traccia massimale che non soddisfi la proprietà. 
+
+[] a
+NO: basta prendere la traccia "a b ..."  
+
+(a \/ c) U b
+SI: considerando entrambe le tracce massimali possibili 
+- traccia "a b b b b b b (per sempre)"  
+- traccia "a c b b b b b b (per sempre)"
+entrambe soddisfano la formula
+
+a U b
+NO: la traccia "a c ..." falsifica la formula
+
+()[](b \/ c)
+SI: 
+considerando entrambe le tracce massimali possibili 
+-1 traccia "a b b b b b b (per sempre)"  
+-2 traccia "a c b b b b b b (per sempre)"
+entrambe soddisfano la formula perchè:
+-1 traccia "b b b b b b (per sempre)" soddisfa [](b \/ c)
+-2 traccia "c b b b b b b (per sempre)" soddisfa [](b \/ c)

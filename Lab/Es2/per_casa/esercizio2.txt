@@ -1,0 +1,1 @@
+Intuitivamente il linguaggio considerato non è regolare poiché l'automa a stati finiti, mentre consuma la stringa in input, dovrebbe "ricordare" tutto il primo numero e tutto il secondo numero per poter controllare la correttezza della somma.

@@ -1,0 +1,1 @@
+Rete di Petri unbounded (marking cresce in modo ciclico)

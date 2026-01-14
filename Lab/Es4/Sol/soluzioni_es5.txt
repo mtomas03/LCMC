@@ -1,0 +1,10 @@
+S=>aSc=>aBc=>aaBbc=>aabc
+
+                        MANGIA                                   MANGIA
+(q0,aabc,S)->(q0,aabc,aSc)->(q0,abc,Sc)->(q0,abc,Bc)->(q0,abc,aBbc)->
+ 
+                     MANGIA    MANGIA
+(q0,bc,Bbc)->(q0,bc,bc)->(q0,c,c)->(q0,\epsilon,\epsilon)
+
+
+
