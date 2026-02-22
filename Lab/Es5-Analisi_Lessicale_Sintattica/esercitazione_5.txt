@@ -56,6 +56,23 @@ COMMENT associato ai lessemi: una stringa che inizia con '/*', contiene
 Nel realizzare la specifica per il lexer, fare attenzione alla regola di 
 maximal-match, che viene applicata per default da ANTLR.
 
+NOTES:
+? (Question Mark dopo quantificatore .*)
+Rende il quantificatore lazy/non-greedy
+Cerca di catturare il minimo necessario (no maximal match rule applicata)
+
+Differenza Greedy vs Lazy
+Dato l'input: /* commento1 */ codice /* commento2 */
+
+>> '/*' .* '*/' (greedy)
+Cattura: /* commento1 */ codice /* commento2 */
+         ^------------------------------------^
+         (tutto dal primo /* all'ultimo */)
+>> '/*' .*? '*/' (lazy)
+Cattura: /* commento1 */    e    /* commento2 */
+         ^-------------^         ^-------------^
+         (si ferma al primo */ disponibile)
+
 -----------------------------------------------------------------------------
 REALIZZAZIONE DI UN PARSER CON ANTLR4 (SimpleExp.g4)
 -----------------------------------------------------------------------------
@@ -134,7 +151,7 @@ effettiva "ExpProd1Context", sottoclasse di "ExpContext" (si veda il file immagi
 file di partenza) per calcolare il risultato delle espressioni. La classe 
 eredita dalla classe, generata automaticamente da ANTLR4, di nome 
 SimpleExpBaseVisitor<E> dove abbiamo scelto Integer come parametro "E" in 
-quanto la visità ritorna un numero intero (il risultato di una espressione). 
+quanto la visita ritorna un numero intero (il risultato di una espressione). 
 ESEMPIO: 3+(4+2+7)*5
 
 3) Dotiamo le stampe effettuate durante la visita di indentazione in modo da visualizzare  l'albero sintattico generato automaticamente da ANTLR4. 
