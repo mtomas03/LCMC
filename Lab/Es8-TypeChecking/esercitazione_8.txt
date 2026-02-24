@@ -125,7 +125,7 @@ aggiunta try-finally in visit che fa indentazione, per ripristinarla comunque
 noti che posso sempre overridare un metodo che dichiara throws senza throws)
 - SymbolTableASTVisitor: stessa cosa
 
-Le altre modifiche effettuate sono le suguenti.
+Le altre modifiche effettuate sono le seguenti.
 - classi in AST e metodi di visita riordinati (radici in alto foglie in basso)
 - è stata introdotta la classe abstract TypeNode extends Node per i tipi:
 TypeNode è ora classe genitore di IntTypeNode e BoolTypeNode, e 

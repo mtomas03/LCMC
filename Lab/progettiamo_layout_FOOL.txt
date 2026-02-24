@@ -1,0 +1,32 @@
+LAYOUT AR FUNZIONI IN SLIDES: (STACK CRESCE VERSO IL BASSO!: in alto, ho indizzi alti; in basso, ho indirizzi bassi)
+
+#################
+CL (Control Link): address (fp) di AR chiamante
+valore ultimo (m-esimo) parametro         		[offset m]
+.
+.
+valore primo parametro                    		[offset   1]
+AL (Access Link): address (fp) di AR dichiarazione	[offset   0]	<- $fp in codice body della funz
+Return Address                            		[offset  -1]
+################
+
+valore/addr prima var/funz dichiarata   	 	[offset -2]
+valore/addr seconda var/funz            	 	[offset -3]
+.
+.
+valore/addr ultima (n-esima) var/funz   	 	[offset -(n+1)]
+
+
+#### = parte del chiamante
+--------------------------------------------------------------------------------------------------------------
+
+
+SOLO AMBIENTE GLOBALE, LAYOUT SUO AR: (STACK CRESCE VERSO IL BASSO!)
+
+[BASE DELLO STACK E' QUI SOTTO] 					<- $fp (settato a valore iniziale di $sp)
+Return Address fittizio a 0 (si va in halt)	 	[offset -1]
+valore/addr prima var/funz dichiarata   	 	[offset -2]
+valore/addr seconda var/funz             	 	[offset -3]
+.
+.
+valore/addr ultima (n-esima) var/funz     	 	[offset -(n+1)]
